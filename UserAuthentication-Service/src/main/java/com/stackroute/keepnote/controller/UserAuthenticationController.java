@@ -54,20 +54,22 @@ private UserAuthenticationService userAuthenticationService;
 
 	@PostMapping("/register")
 	public ResponseEntity registerUser(@RequestBody User user) {
-		try {
-			Boolean flag = userAuthenticationService.saveUser(user);
-			if(flag==true)
-				responseEntity = new ResponseEntity(flag, HttpStatus.CREATED);
-			if(flag==false)
-				responseEntity = new ResponseEntity(flag, HttpStatus.CONFLICT);
 
-		}catch (Exception e) {
-			responseEntity = new ResponseEntity(e.getMessage(), HttpStatus.CONFLICT);
+		try {
+
+			Boolean flag = userAuthenticationService.saveUser(user);
+			responseEntity = new ResponseEntity(flag, HttpStatus.CREATED);
+
+
+		} catch (UserAlreadyExistsException exception) {
+			responseEntity = new ResponseEntity("error", HttpStatus.CONFLICT);
 		}
+
 
 		return responseEntity;
 
 	}
+
 
 
 	/* Define a handler method which will authenticate a user by reading the Serialized user

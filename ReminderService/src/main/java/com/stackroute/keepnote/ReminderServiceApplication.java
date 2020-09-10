@@ -1,5 +1,6 @@
 package com.stackroute.keepnote;
 
+import com.stackroute.keepnote.jwtfilter.JwtFilter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -21,14 +22,15 @@ public class ReminderServiceApplication {
 	 * object and use setFilter() method to set new instance of JwtFilter object.
 	 * Also specifies the Url patterns for registration bean.
 	 */
-	  @Bean
-	    public FilterRegistrationBean jwtFilter() {
-	       
-	        return null;
-	    }
+	@Bean
+	public FilterRegistrationBean jwtFilter()
+	{
+		FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+		filterRegistrationBean.setFilter(new JwtFilter());
+		filterRegistrationBean.addUrlPatterns("/api/v1/*");
+		return filterRegistrationBean;
 
-	
-	
+	}
 	/*
 	 * 
 	 * You need to run SpringApplication.run, because this method start whole spring
